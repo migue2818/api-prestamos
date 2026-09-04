@@ -5,16 +5,15 @@ usando un modelo de Machine Learning desplegado con FastAPI y Docker.
 
 ## Estructura del proyecto
 
-api-prestamos/
-├── eda.py # Análisis exploratorio de datos
-├── comparar_modelos.py # Comparación de modelos candidatos
-├── train_model.py # Pipeline de entrenamiento (Logistic Regression)
-├── modelo.joblib # Pipeline serializado
-├── app.py # API FastAPI
-├── requirements.txt # Dependencias con versiones fijadas
-├── Dockerfile # Contenerización
-├── datos_credito.parquet # Dataset original
-└── eda_output/ # Gráficas del análisis exploratorio
+- `eda.py` — Análisis exploratorio de datos
+- `comparar_modelos.py` — Comparación de modelos candidatos
+- `train_model.py` — Pipeline de entrenamiento (Logistic Regression)
+- `modelo.joblib` — Pipeline serializado
+- `app.py` — API FastAPI
+- `requirements.txt` — Dependencias con versiones fijadas
+- `Dockerfile` — Contenerización
+- `datos_credito.parquet` — Dataset original
+- `eda_output/` — Gráficas del análisis exploratorio
 
 
 
@@ -101,6 +100,6 @@ Abrir `http://localhost:8000/docs` o enviar un POST a `/predict`:
 
 ## Autores
 
-Elizabeth Galindez Obando
-Ivan Andres Torres Blanco
-Miguel Ángel Ordóñez Tandioy
+- Elizabeth Galindez Obando
+- Ivan Andres Torres Blanco
+- Miguel Ángel Ordóñez Tandioy
