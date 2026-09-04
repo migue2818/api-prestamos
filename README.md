@@ -1,18 +1,46 @@
 # API de Predicción de Crédito
 
 Microservicio que predice si un crédito será aprobado o no,
-usando un modelo Random Forest entrenado con datos de clientes.
+usando un modelo de Machine Learning desplegado con FastAPI y Docker.
 
 ## Estructura del proyecto
 
 api-prestamos/
-├── train_model.py # Entrenamiento y exportación del modelo
-├── modelo.joblib # Modelo serializado
+├── eda.py # Análisis exploratorio de datos
+├── comparar_modelos.py # Comparación de modelos candidatos
+├── train_model.py # Pipeline de entrenamiento (Logistic Regression)
+├── modelo.joblib # Pipeline serializado
 ├── app.py # API FastAPI
-├── requirements.txt # Dependencias
+├── requirements.txt # Dependencias con versiones fijadas
 ├── Dockerfile # Contenerización
-└── datos_credito.parquet # Dataset original
+├── datos_credito.parquet # Dataset original
+└── eda_output/ # Gráficas del análisis exploratorio
 
+
+
+## Proceso de desarrollo
+
+### 1. Análisis Exploratorio (EDA)
+Se analizó el dataset de 15,000 registros con 9 variables numéricas.
+Se verificó que no hay nulos ni variables categóricas.
+Se generaron gráficas de correlación, distribuciones y boxplots.
+
+### 2. Comparación de modelos
+Se evaluaron 3 modelos con cross-validation (5 folds):
+
+| Modelo              | Accuracy | F1     | Recall | AUC-ROC |
+|---------------------|----------|--------|--------|---------|
+| Logistic Regression | 0.7357   | 0.8155 | 0.8843 | 0.7614  |
+| Random Forest       | 0.7187   | 0.8013 | 0.8585 | 0.7380  |
+| Gradient Boosting   | 0.7332   | 0.8138 | 0.8822 | 0.7631  |
+
+Se seleccionó **Logistic Regression** por mejor F1-score e interpretabilidad.
+
+### 3. Pipeline de entrenamiento
+El modelo se entrena dentro de un `sklearn.Pipeline` que incluye:
+- `SimpleImputer` (imputación de nulos por mediana)
+- `StandardScaler` (escalado de variables)
+- `LogisticRegression` (clasificación)
 
 ## Requisitos
 
@@ -55,20 +83,24 @@ Abrir `http://localhost:8000/docs` o enviar un POST a `/predict`:
 ```json
 {
   "decision": "Aprobado",
-  "probabilidad": 0.9
+  "probabilidad_aprobacion": 0.8098
 }
 ```
 
+## Validaciones
+
+- Edad: entre 18 y 100 años
+- Score crediticio: entre 300 y 850
+
 ## Tecnologías
 
-- Python 3.10
+- Python 3.12
 - FastAPI + Uvicorn
-- scikit-learn (Random Forest)
+- scikit-learn (Logistic Regression + Pipeline)
 - Docker
 
 ## Autores
 
-Elizabeth Galiden Obando
+Elizabeth Galindez Obando
 Ivan Andres Torres Blanco
 Miguel Ángel Ordóñez Tandioy
-
